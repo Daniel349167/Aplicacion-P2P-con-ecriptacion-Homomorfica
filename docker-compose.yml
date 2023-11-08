@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: p2p-nginx
+    ports:
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - flask
+      
+  flask:
+    build: .
+    container_name: p2p-flask
+    ports:
+      - "80:5000"
+    depends_on:
+      - db
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - TZ=America/Lima
+    volumes:
+      - .:/app
+
+  db:
+    build:
+      context: .
+      dockerfile: dockerfile.db
+    container_name: p2p-db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=daniel
+      - MYSQL_DATABASE=p2p
+      - MYSQL_USER=daniel
+      - MYSQL_PASSWORD=123
+      - TZ=America/Lima
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: p2p-phpmyadmin
+    depends_on:
+      - db
+    environment:
+      - PMA_HOST=db
+      - MYSQL_ROOT_PASSWORD=daniel
+      - TZ=America/Lima
+
+
+volumes:
+  mysql_data:

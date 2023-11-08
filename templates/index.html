@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <title>Aplicación P2P con Encriptación Homomórfica</title>
+</head>
+
+<body>
+    <h1>Aplicación P2P con Encriptación Homomórfica</h1>
+
+    <!-- Formulario para que el prestamista solicite -->
+    <div class="formulario card">
+        <button class="btn-contraer">-</button>
+        <h2>Solicitud de Préstamo</h2>
+        <div class="card-content card-content4">
+            <div class="containerEncriptacion">
+                <div class="columnaEncriptacion">
+
+                    <h2>Encriptación</h2>
+
+                    <div class="input-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" class="input-pequeno">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="edad">Edad:</label>
+                        <input type="number" id="edad" min="18" max="100" class="input-pequeno">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="ingresos">Ingresos Mensuales:</label>
+                        <input type="number" id="ingresos" class="input-pequeno">
+                    </div>
+
+                    <div class="input-group" style="margin-bottom: 20px;">
+                        <label for="historial">Historial Crediticio:</label>
+                        <select id="historial">
+                            <option value="excelente">Excelente</option>
+                            <option value="bueno">Bueno</option>
+                            <option value="regular">Regular</option>
+                            <option value="malo">Malo</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="monto">Monto Solicitado:</label>
+                        <input type="number" id="monto" class="input-pequeno">
+                    </div>
+
+                    <button id="encriptar">Encriptar</button>
+                </div>
+
+                <div class="columnaEncriptacion border">
+                    <h2>Solicitud</h2>
+                    <div class="input-group-solicitar">
+                        <div class="labelEnvio">Nombre:</div>
+                        <div id="nombreValue" class="valueNombre"></div>
+                    </div>
+                    <div class="input-group-solicitar">
+                        <div class="labelEnvio">Edad:</div>
+                        <a id="edadValue" class="value" download="edadEncriptada.txt"></a>
+                    </div>
+                    <div class="input-group-solicitar">
+                        <div class="labelEnvio">Ingresos Mensuales:</div>
+                        <a id="ingresosValue" class="value" download="ingresosEncriptados.txt"></a>
+                    </div>
+                    <div class="input-group-solicitar">
+                        <div class="labelEnvio">Historial Crediticio:</div>
+                        <a id="historialValue" class="value" download="historialEncriptado.txt"></a>
+                    </div>
+                    <div class="input-group-solicitar">
+                        <div class="labelEnvio">Monto Solicitado:</div>
+                        <a id="montoValue" class="value" download="montoEncriptado.txt"></a>
+                    </div>
+                    <div class="input-group-solicitar">
+                        <div class="labelEnvio2">Llave Pública:</div>
+                        <a id="llavepublicaValue" class="value" download="llavePublica.txt"></a>
+                    </div>
+                    <button id="solicitar">Solicitar</button>
+                    <div class="input-group-solicitar">
+                        <div class="labelEnvio3">Llave Privada:</div>
+                        <a id="llaveprivadaValue" class="value" download="llavePrivada.txt"></a> 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="solicitudes card">
+        <button class="btn-contraer">-</button>
+        <h2>Solicitudes Recibidas</h2>
+        <div class="card-content">
+            <div id="contenedorSolicitudes"></div>
+        </div>
+    </div>
+
+    <div class="solicitudes card" id="ofertasCard">
+        <button class="btn-contraer">-</button>
+        <h2>Mis Ofertas</h2>
+        <div id="solicitudes-ofertas">
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

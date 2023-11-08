@@ -1,0 +1,248 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.formulario, .solicitudes, .ofertas {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.input-group input[type="text"],.input-group input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.input-group input[type="text"], .input-group input[type="number"] {
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.btn-contraer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #007BFF; /* Color azul, pero puedes cambiarlo */
+    border: none;
+    border-radius: 5px; /* Bordes más redondeados */
+    padding: 5px 10px; /* Padding horizontal más grande para que el botón sea un poco más ancho */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* Transición suave para el color de fondo y transformación */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra sutil */
+}
+
+.btn-contraer:hover {
+    background-color: #0056b3; /* Un azul más oscuro cuando se pasa el mouse por encima */
+    transform: scale(1.05); /* El botón se agranda un poco al pasar el mouse por encima */
+}
+
+.card {
+    position: relative;
+}
+.card h2 {
+    padding-right: 40px; 
+}
+/* Estilo para el desplegable */
+select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    appearance: none; /* Eliminar la apariencia predeterminada en algunos navegadores */
+    -webkit-appearance: none; /* Eliminar la apariencia predeterminada en navegadores Webkit */
+    -moz-appearance: none; /* Eliminar la apariencia predeterminada en Firefox */
+    cursor: pointer; /* Cambiar el cursor a una mano */
+}
+
+h1 {
+    text-align: center;
+}
+
+input[type="text"], input[type="number"], select {
+    box-sizing: border-box; /* Esto asegura que el padding y el border se incluyan en el width total del elemento */
+}
+
+.card-content2 {
+    display: flex;
+    flex-direction: row;
+}
+
+.columna-derecha {
+    flex: 1;
+    padding-left: 20px; /* O cualquier otro valor para separación */
+    border-left: 1px solid #ccc; /* O cualquier otro estilo de línea divisoria */
+}
+
+.columna-izquierda {
+    flex: 1;
+}
+
+
+.inline-field {
+    display: flex;
+    align-items: center;
+}
+
+.inline-field strong {
+    margin-right: 10px;  /* Ajusta este valor según la separación que desees */
+}
+
+
+.columna-derecha input[type="text"],.columna-derecha input[type="number"] {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+
+.columna-izquierda2 {
+width: 35%;
+padding: 10px;
+}
+
+.columna-derecha2 {
+    width: 65%;
+    padding: 10px;   
+}
+.card-content4{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+} 
+.card-content3 {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+} 
+
+.input-centrado {
+    width: 50px;
+    text-align: center;
+}
+.contenedor-tres-columnas {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.columnaSolicitudes {
+    padding: 10px; 
+}
+
+.border{
+    border-left: 1px solid #ccc;
+    padding-left: 23px;
+}
+
+.border-derecha{
+    border-right: 1px solid #ccc;
+    margin-right: 23px;
+}
+
+.containerEncriptacion {
+    display: flex;
+  }
+
+.columnaEncriptacion {
+flex: 1;
+padding-left: 2%;
+padding-bottom: 5px;
+margin-bottom: 10px;
+}
+
+.input-pequeno {
+    width: 70% !important; 
+   
+}
+
+.labelEnvio{
+    margin-bottom: 25px;
+}
+
+.labelEnvio2{
+    margin-bottom: 25px;
+}
+
+.labelEnvio3{
+    margin-top: 65px;
+}
+.labelEnvio, .labelEnvio2, .labelEnvio3 {
+    width: auto;
+    display: inline-block;
+    font-weight: bold;
+    align-items: center;
+    height: auto;
+}
+
+.valueNombre{
+    width: auto;
+    display: inline-block;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .loader {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+    display: inline-block; 
+    margin-left: 15px;
+  }
+  
+
+  .spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3); /* Cambia el color y transparencia del borde */
+    border-top-color: #fff; /* Color blanco para el borde superior */
+    width: 1em; /* Tamaño relativo al botón */
+    height: 1em; /* Tamaño relativo al botón */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite; /* Animación más suave */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

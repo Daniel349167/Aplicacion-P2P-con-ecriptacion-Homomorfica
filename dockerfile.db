@@ -1,0 +1,4 @@
+FROM mysql:8.0.34
+
+# Copia el archivo de backup al contenedor
+COPY p2p.sql /docker-entrypoint-initdb.d/

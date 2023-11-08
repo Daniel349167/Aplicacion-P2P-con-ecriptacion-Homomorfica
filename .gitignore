@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+venv/
+
+# Configuraciones de editor
+.vscode/
+
+# Claves y configuraciones sensibles
+keys/*
+!keys/.gitkeep
+
+# Bibliotecas o directorios específicos
+TenSEAL/
+
+# Archivos de configuración
+*.env
+
+# Excluir static/keys completamente
+static/keys/
