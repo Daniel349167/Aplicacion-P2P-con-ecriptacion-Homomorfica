@@ -72,10 +72,18 @@ def encriptar_datos():
     public_context_url = obtener_url_contexto_publico(nombre)
     # Deserializary Encriptar los datos numéricos con CKKS
     public_context = ts.context_from(public_context_serialized)
+
+    # nombre_encrypted = ts.ckks_vector(public_context, int[data['nombre']])
     edad_encrypted = ts.ckks_vector(public_context, [int(data['edad'])])
     ingresos_encrypted = ts.ckks_vector(public_context, [int(data['ingresos'])])
     monto_encrypted = ts.ckks_vector(public_context, [int(data['monto'])])
     historial_id_encrypted = ts.ckks_vector(public_context, [int(historial_id)])
+
+    # nombre_encrypted = ts.bfv_vector(public_context, [data['nombre']])
+    # edad_encrypted = ts.bfv_vector(public_context, [int(data['edad'])])
+    # ingresos_encrypted = ts.bfv_vector(public_context, [int(data['ingresos'])])
+    # monto_encrypted = ts.bfv_vector(public_context, [int(data['monto'])])
+    # historial_id_encrypted = ts.bfv_vector(public_context, [int(historial_id)])
     
     # Serializar y convertir a base64
     edad_bytes = base64.b64encode(edad_encrypted.serialize()).decode('utf-8')
@@ -325,12 +333,16 @@ def guardar_contexto_tenSEAL(nombre):
     # Inicializar TenSEAL si no existe un contexto guardado
     context = ts.context(
         ts.SCHEME_TYPE.CKKS,
-        poly_modulus_degree=8192,
-        coeff_mod_bit_sizes=[60, 40, 40, 60]
+        poly_modulus_degree = 16384,
+        coeff_mod_bit_sizes = [60, 40, 40, 40, 40, 60]
     )
     # Generar claves Galois y establecer la escala global
     context.generate_galois_keys()
     context.global_scale = 2**40
+
+    # context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=4096, plain_modulus=1032193)
+    # context.generate_galois_keys()
+
 
     # Serializar el contexto con la clave secreta y guardar en un archivo
     secret_context = context.serialize(save_secret_key=True)
@@ -386,6 +398,7 @@ def write_data(file_path, data):
 def calcular_prestamo(ruta, nombre, edad_bytes, ingresos_bytes, historial_id_bytes, monto_bytes, tasa_base, factor_monto, factor_tiempo):
     # Deserializar y descodificar de Base64 para el contexto público
     context_publico = cargar_contexto_publico_tenSEAL(ruta)
+
 
     edad_encrypted = ts.ckks_vector_from(context_publico, base64.b64decode(edad_bytes))
     ingresos_encrypted = ts.ckks_vector_from(context_publico, base64.b64decode(ingresos_bytes))

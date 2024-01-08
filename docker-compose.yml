@@ -1,23 +1,11 @@
 version: '3.8'
 
 services:
-  nginx:
-    image: nginx:latest
-    container_name: p2p-nginx
-    ports:
-      - "443:443"
-      - "8080:8080"
-    volumes:
-      - ./nginx/conf:/etc/nginx/conf.d
-      - /etc/letsencrypt:/etc/letsencrypt
-    depends_on:
-      - flask
-      
   flask:
     build: .
     container_name: p2p-flask
     ports:
-      - "80:5000"
+      - "4040:5000"
     depends_on:
       - db
     environment:
@@ -44,6 +32,8 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: p2p-phpmyadmin
+    ports:
+      - "4041:80"
     depends_on:
       - db
     environment:

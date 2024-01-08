@@ -246,3 +246,17 @@ margin-bottom: 10px;
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+
+  .logo-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 15px;
+}
+
+
+.logo {
+    width: auto; /* Ajusta el ancho del logo a tus necesidades */
+    height: 80px; /* Esto mantendrá la proporción de tu imagen */
+}

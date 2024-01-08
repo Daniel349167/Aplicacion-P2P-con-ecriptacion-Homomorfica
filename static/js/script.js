@@ -5,6 +5,7 @@ const btnsContraer = document.querySelectorAll('.btn-contraer');
 
 btnsContraer.forEach(btn => {
     btn.addEventListener('click', (e) => {
+        // Buscar elementos con clase 'card-content' o 'card-content2'
         const cardContent = e.target.parentElement.querySelector('.card-content');
         if (cardContent.style.display === 'none') {
             cardContent.style.display = 'block';
@@ -37,7 +38,7 @@ function manejarEnvio() {
     let nombre = document.getElementById("nombreValue").textContent;
 
     botonSolicitar.innerHTML = '<div class="spinner"></div>';
-    botonSolicitar.disabled = true; 
+    botonSolicitar.disabled = true;
 
     // Función para manejar la carga y la lectura de archivos
     function leerArchivo(url, callback) {
@@ -65,24 +66,24 @@ function manejarEnvio() {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 // Quitar el spinner del botón y volver al texto original
-                 // Volver a habilitar el botón
-    
+                // Volver a habilitar el botón
+
                 if (xhr.status === 200) {
                     let respuesta = JSON.parse(xhr.responseText);
                     if (respuesta.status === "success") {
                         actualizarSolicitudesRecibidas();
-                    // Limpiar los campos después de un envío exitoso
-                    document.getElementById("nombre").value = "";
-                    document.getElementById("edad").value = "";
-                    document.getElementById("ingresos").value = "";
-                    document.getElementById("historial").value = "excelente";
-                    document.getElementById("monto").value = "";
+                        // Limpiar los campos después de un envío exitoso
+                        document.getElementById("nombre").value = "";
+                        document.getElementById("edad").value = "";
+                        document.getElementById("ingresos").value = "";
+                        document.getElementById("historial").value = "excelente";
+                        document.getElementById("monto").value = "";
 
-                    document.getElementById("nombreValue").textContent = "";
-                    document.getElementById("edadValue").setAttribute('href', '');
-                    document.getElementById("ingresosValue").setAttribute('href', '');
-                    document.getElementById("historialValue").setAttribute('href', '');
-                    document.getElementById("montoValue").setAttribute('href', '');
+                        document.getElementById("nombreValue").textContent = "";
+                        document.getElementById("edadValue").setAttribute('href', '');
+                        document.getElementById("ingresosValue").setAttribute('href', '');
+                        document.getElementById("historialValue").setAttribute('href', '');
+                        document.getElementById("montoValue").setAttribute('href', '');
                     }
                 } else {
                     botonSolicitar.innerHTML = 'Solicitar';
@@ -217,7 +218,7 @@ function actualizarSolicitudesRecibidas() {
                                 <strong>Tiempo de Préstamo:</strong> 
                                 <a href="#" id="tiempo${i}" download="tiempo.txt" style="margin-right: 10px;"></a>
                             </p>
-                            <button class="ofertar-btn" data-index="${solicitudes[i].id}">Enviar Oferta</button>
+                            <button class="ofertar-btn" id="btnOferta${i}" data-index="${solicitudes[i].id}">Enviar Oferta</button>
                         </div>
                     </div>
                   </div>
@@ -239,12 +240,12 @@ function actualizarSolicitudesRecibidas() {
                 btnOfertar.addEventListener('click', function () {
                     const id = this.getAttribute('data-index');
                     btnOfertar.innerHTML = '<div class="spinner"></div>';
-                    btnOfertar.disabled = true; 
+                    btnOfertar.disabled = true;
                     guardarOferta(id, i);
                 });
 
                 botonSolicitar.innerHTML = 'Solicitar';
-                    botonSolicitar.disabled = false;
+                botonSolicitar.disabled = false;
 
             }
         }
@@ -253,40 +254,42 @@ function actualizarSolicitudesRecibidas() {
 }
 
 function actualizarOfertasRecibidas() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/getOfertas", true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            let ofertas = JSON.parse(xhr.responseText);
-            let contenedor = document.getElementById("solicitudes-ofertas");
-            contenedor.innerHTML = "";
+    return new Promise((resolve, reject) => {
 
-            for (let i = 0; i < ofertas.length; i++) {
-                const solicitudData = ofertas[i];
-                if (solicitudData.ofertas.length === 0) {
-                    continue;
-                }
-                // Crear Blobs para cada dato de la solicitud
-                let blobNombre = new Blob([solicitudData.nombre.toString()], { type: "text/plain" });
-                let urlNombre = URL.createObjectURL(blobNombre);
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "/getOfertas", true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let ofertas = JSON.parse(xhr.responseText);
+                let contenedor = document.getElementById("solicitudes-ofertas");
+                contenedor.innerHTML = "";
 
-                let blobEdad = new Blob([solicitudData.edad.toString()], { type: "text/plain" });
-                let urlEdad = URL.createObjectURL(blobEdad);
+                for (let i = 0; i < ofertas.length; i++) {
+                    const solicitudData = ofertas[i];
+                    if (solicitudData.ofertas.length === 0) {
+                        continue;
+                    }
+                    // Crear Blobs para cada dato de la solicitud
+                    let blobNombre = new Blob([solicitudData.nombre.toString()], { type: "text/plain" });
+                    let urlNombre = URL.createObjectURL(blobNombre);
 
-                let blobIngresosMensuales = new Blob([solicitudData.ingresos_mensuales.toString()], { type: "text/plain" });
-                let urlIngresosMensuales = URL.createObjectURL(blobIngresosMensuales);
+                    let blobEdad = new Blob([solicitudData.edad.toString()], { type: "text/plain" });
+                    let urlEdad = URL.createObjectURL(blobEdad);
 
-                let blobMonto = new Blob([solicitudData.monto.toString()], { type: "text/plain" });
-                let urlMonto = URL.createObjectURL(blobMonto);
+                    let blobIngresosMensuales = new Blob([solicitudData.ingresos_mensuales.toString()], { type: "text/plain" });
+                    let urlIngresosMensuales = URL.createObjectURL(blobIngresosMensuales);
 
-                let blobHistorialCrediticio = new Blob([solicitudData.historial_crediticio.toString()], { type: "text/plain" });
-                let urlHistorialCrediticio = URL.createObjectURL(blobHistorialCrediticio);
+                    let blobMonto = new Blob([solicitudData.monto.toString()], { type: "text/plain" });
+                    let urlMonto = URL.createObjectURL(blobMonto);
+
+                    let blobHistorialCrediticio = new Blob([solicitudData.historial_crediticio.toString()], { type: "text/plain" });
+                    let urlHistorialCrediticio = URL.createObjectURL(blobHistorialCrediticio);
 
 
-                // Crear solicitud
-                const solicitudDiv = document.createElement('div');
-                solicitudDiv.className = "card-content3";
-                const contenido = `
+                    // Crear solicitud
+                    const solicitudDiv = document.createElement('div');
+                    solicitudDiv.className = "card-content3";
+                    const contenido = `
                     <div class="columna-izquierda2 border-derecha">
                     <h3>Solicitud #${i + 1}</h3>
                     <p><strong>Nombre:</strong> ${solicitudData.nombre}</p>  
@@ -322,41 +325,41 @@ function actualizarOfertasRecibidas() {
                     </div>
                     </div>
                 `;
-                solicitudDiv.innerHTML = contenido;
+                    solicitudDiv.innerHTML = contenido;
 
-                contenedor.appendChild(solicitudDiv);
+                    contenedor.appendChild(solicitudDiv);
 
-                document.getElementById(`edadIcon${i}`).addEventListener('click', function () {
-                    toggleVisibility(`edad${i}`, solicitudData.edad, `${solicitudData.nombre}`, 'oferta');
-                });
-                document.getElementById(`ingresosMensualesIcon${i}`).addEventListener('click', function () {
-                    toggleVisibility(`ingresosMensuales${i}`, solicitudData.ingresos_mensuales, `${solicitudData.nombre}`, 'oferta');
-                });
-                document.getElementById(`montoIcon${i}`).addEventListener('click', function () {
-                    toggleVisibility(`monto${i}`, solicitudData.monto, `${solicitudData.nombre}`, 'oferta');
-                });
-                document.getElementById(`historialIcon${i}`).addEventListener('click', function () {
-                    toggleVisibility(`historial${i}`, solicitudData.historial_crediticio, `${solicitudData.nombre}`, 'oferta');
-                });
-                // Crear ofertas
-                const ofertasCard = document.createElement('div');
-                ofertasCard.className = "ofertas-card";
+                    document.getElementById(`edadIcon${i}`).addEventListener('click', function () {
+                        toggleVisibility(`edad${i}`, solicitudData.edad, `${solicitudData.nombre}`, 'oferta');
+                    });
+                    document.getElementById(`ingresosMensualesIcon${i}`).addEventListener('click', function () {
+                        toggleVisibility(`ingresosMensuales${i}`, solicitudData.ingresos_mensuales, `${solicitudData.nombre}`, 'oferta');
+                    });
+                    document.getElementById(`montoIcon${i}`).addEventListener('click', function () {
+                        toggleVisibility(`monto${i}`, solicitudData.monto, `${solicitudData.nombre}`, 'oferta');
+                    });
+                    document.getElementById(`historialIcon${i}`).addEventListener('click', function () {
+                        toggleVisibility(`historial${i}`, solicitudData.historial_crediticio, `${solicitudData.nombre}`, 'oferta');
+                    });
+                    // Crear ofertas
+                    const ofertasCard = document.createElement('div');
+                    ofertasCard.className = "ofertas-card";
 
-                const totalOfertas = solicitudData.ofertas.length;
-                solicitudData.ofertas.forEach((oferta, index) => {
-                    // Crear Blobs para cada dato de la oferta
-                    let blobMontoOfrecido = new Blob([oferta.montoOfrecido.toString()], { type: "text/plain" });
-                    let urlMontoOfrecido = URL.createObjectURL(blobMontoOfrecido);
+                    const totalOfertas = solicitudData.ofertas.length;
+                    solicitudData.ofertas.forEach((oferta, index) => {
+                        // Crear Blobs para cada dato de la oferta
+                        let blobMontoOfrecido = new Blob([oferta.montoOfrecido.toString()], { type: "text/plain" });
+                        let urlMontoOfrecido = URL.createObjectURL(blobMontoOfrecido);
 
-                    let blobInteresOferta = new Blob([oferta.interesOferta.toString()], { type: "text/plain" });
-                    let urlInteresOferta = URL.createObjectURL(blobInteresOferta);
+                        let blobInteresOferta = new Blob([oferta.interesOferta.toString()], { type: "text/plain" });
+                        let urlInteresOferta = URL.createObjectURL(blobInteresOferta);
 
-                    let blobTiempoPrestamo = new Blob([oferta.tiempoPrestamo.toString()], { type: "text/plain" });
-                    let urlTiempoPrestamo = URL.createObjectURL(blobTiempoPrestamo);
+                        let blobTiempoPrestamo = new Blob([oferta.tiempoPrestamo.toString()], { type: "text/plain" });
+                        let urlTiempoPrestamo = URL.createObjectURL(blobTiempoPrestamo);
 
-                    const ofertaDiv = document.createElement('div');
-                    ofertaDiv.className = "oferta";
-                    ofertaDiv.innerHTML = `
+                        const ofertaDiv = document.createElement('div');
+                        ofertaDiv.className = "oferta";
+                        ofertaDiv.innerHTML = `
                         <h3>Oferta #${index + 1}</h3>
                         <p><strong>Prestamista:</strong> <span>${oferta.prestamista}</span></p>
                         <p>
@@ -380,47 +383,46 @@ function actualizarOfertasRecibidas() {
                         <button onclick="aceptarOferta(${oferta.id})">Aceptar Oferta</button>
                     `;
 
-                    if (totalOfertas > 1 && index < (totalOfertas - 1)) {
-                        ofertaDiv.style.marginBottom = '35px';
-                    }
+                        if (totalOfertas > 1 && index < (totalOfertas - 1)) {
+                            ofertaDiv.style.marginBottom = '35px';
+                        }
 
-                    ofertasCard.appendChild(ofertaDiv);
-                });
-
-
-
-                solicitudDiv.querySelector(".ofertas-solicitud").appendChild(ofertasCard);
-
-                solicitudData.ofertas.forEach((oferta, index) => {
-                    const montoIcon = document.getElementById(`montoOfrecidoIcon${i}${index}`);
-                    const interesIcon = document.getElementById(`interesOfertaIcon${i}${index}`);
-                    const tiempoIcon = document.getElementById(`tiempoPrestamoIcon${i}${index}`);
-
-
-                    montoIcon.addEventListener('click', function () {
-                        toggleVisibility(`montoOfrecido${i}${index}`, `${oferta.montoOfrecido}`, `${solicitudData.nombre}`, 'oferta');
-                    });
-
-                    interesIcon.addEventListener('click', function () {
-                        toggleVisibility(`interesOferta${i}${index}`, `${oferta.interesOferta}`, `${solicitudData.nombre}`, 'oferta');
-                    });
-
-                    tiempoIcon.addEventListener('click', function () {
-                        toggleVisibility(`tiempoPrestamo${i}${index}`, `${oferta.tiempoPrestamo}`, `${solicitudData.nombre}`, 'oferta');
+                        ofertasCard.appendChild(ofertaDiv);
                     });
 
 
 
-                });
-                let btnOfertar = document.querySelector('.ofertar-btn');
+                    solicitudDiv.querySelector(".ofertas-solicitud").appendChild(ofertasCard);
 
-                btnOfertar.innerHTML = "Enviar Oferta";
-                btnOfertar.disabled = false; 
+                    solicitudData.ofertas.forEach((oferta, index) => {
+                        const montoIcon = document.getElementById(`montoOfrecidoIcon${i}${index}`);
+                        const interesIcon = document.getElementById(`interesOfertaIcon${i}${index}`);
+                        const tiempoIcon = document.getElementById(`tiempoPrestamoIcon${i}${index}`);
 
+
+                        montoIcon.addEventListener('click', function () {
+                            toggleVisibility(`montoOfrecido${i}${index}`, `${oferta.montoOfrecido}`, `${solicitudData.nombre}`, 'oferta');
+                        });
+
+                        interesIcon.addEventListener('click', function () {
+                            toggleVisibility(`interesOferta${i}${index}`, `${oferta.interesOferta}`, `${solicitudData.nombre}`, 'oferta');
+                        });
+
+                        tiempoIcon.addEventListener('click', function () {
+                            toggleVisibility(`tiempoPrestamo${i}${index}`, `${oferta.tiempoPrestamo}`, `${solicitudData.nombre}`, 'oferta');
+                        });
+
+
+
+                    });
+
+
+                }
+                resolve();
             }
-        }
-    };
-    xhr.send();
+        };
+        xhr.send();
+    });
 }
 
 function toggleVisibility(elementId, datoEncriptado, nombre, tipo = 'solicitud') {
@@ -625,7 +627,6 @@ function estimarPrestamo(id, i) {
             console.error('Error al estimar el prestamo:', error);
         });
 }
-
 function guardarOferta(id, i) {
     // Obtener el valor del prestamista desde el elemento HTML
     let prestamista = document.getElementById(`nombre${i}`).value;
@@ -655,25 +656,36 @@ function guardarOferta(id, i) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                actualizarOfertasRecibidas();
+                actualizarOfertasRecibidas().then(() => {
+                    // El resto del código se ejecutará después de que actualizarOfertasRecibidas() se complete
+                    // console.log("La promesa se resolvió correctamente.");
+                    let btnOfertar = document.getElementById(`btnOferta${i}`);
+                    btnOfertar.innerHTML = "Enviar Oferta";
+                    btnOfertar.disabled = false;
+                }).catch(error => {
+                    console.error("Ocurrió un error en guardarOferta:", error);
+                    // Manejar el error adecuadamente
+                });
             } else {
                 // Aquí imprimes el mensaje de error que recibes del servidor
                 if (data.error) {
                     console.error("Error del servidor:", data.error);
                 }
-                let btnOfertar = document.querySelector('.ofertar-btn');
+
+                // Buscar y actualizar el botón específico por ID
+                let btnOfertar = document.getElementById(`btnOferta${i}`);
 
                 btnOfertar.innerHTML = "Enviar Oferta";
-                btnOfertar.disabled = false; 
+                btnOfertar.disabled = false;
                 alert("Hubo un error al guardar la oferta");
             }
         })
         .catch(error => {
             // Aquí capturas y muestras errores que podrían ocurrir durante la petición
-            let btnOfertar = document.querySelector('.ofertar-btn');
+            let btnOfertar = document.getElementById(`btnOferta${i}`);
 
-                btnOfertar.innerHTML = "Enviar Oferta";
-                btnOfertar.disabled = false; 
+            btnOfertar.innerHTML = "Enviar Oferta";
+            btnOfertar.disabled = false;
 
             console.error("Error en la petición fetch:", error);
         });
@@ -760,21 +772,11 @@ function encriptarDatos() {
             document.getElementById('montoValue').href = URL.createObjectURL(blobMonto);
             document.getElementById('llaveprivadaValue').href = URL.createObjectURL(blobLlavePrivada);
 
-            fetch(dataEncrypted.contexto_publico_url)
-                .then(response => response.blob()) // Obtener la respuesta como Blob
-                .then(blob => {
-                    // Crear URL para descargar el Blob
-                    const a = document.getElementById('llavepublicaValue');
-
-                    const url = window.URL.createObjectURL(blob);
-                    a.href = url;
-                    a.download = 'contexto_publico.txt';
-                    a.textContent = "Descargar";
-
-                })
-                .catch(error => {
-                    console.error('Error al descargar la llave pública:', error);
-                });
+            // Configurar enlace de descarga de la llave pública
+            const aLlavePublica = document.getElementById('llavepublicaValue');
+            aLlavePublica.href = dataEncrypted.contexto_publico_url;
+            aLlavePublica.textContent = "Descargar";
+            aLlavePublica.target = '_blank'; // Abrir en una nueva pestaña
 
             // Actualizar el texto de los enlaces para indicar que son descargables
             document.getElementById('edadValue').textContent = "Descargar";
